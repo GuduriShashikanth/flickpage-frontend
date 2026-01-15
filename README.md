@@ -1,200 +1,190 @@
-# FlickPage Frontend
+# FlickPage
 
-React + TypeScript frontend for FlickPage - AI-powered movie and book recommendation system.
+> AI-powered movie and book recommendation platform
 
-## Tech Stack
+[![React](https://img.shields.io/badge/React-18-blue.svg)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue.svg)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5-purple.svg)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-cyan.svg)](https://tailwindcss.com/)
 
-- **React 18** with TypeScript
-- **Vite** - Fast build tool
-- **Tailwind CSS** - Styling
-- **React Router** - Navigation
-- **Zustand** - State management
-- **Axios** - API calls
-- **Lucide React** - Icons
+## 🌐 Live Site
 
-## Quick Start
+**[https://flickpage.vercel.app/](https://flickpage.vercel.app/)**
 
+## 🚀 Running Locally
+
+### Prerequisites
+- Node.js 18+ installed
+- npm or yarn package manager
+
+### Installation
+
+1. **Clone the repository**
 ```bash
-# Install dependencies
+git clone <repository-url>
+cd cinelibre-frontend
+```
+
+2. **Install dependencies**
+```bash
 npm install
+```
 
-# Start development server
+3. **Start development server**
+```bash
 npm run dev
+```
 
-# Build for production
+4. **Open in browser**
+```
+http://localhost:5173
+```
+
+### Build for Production
+```bash
 npm run build
-
-# Preview production build
-npm run preview
 ```
 
-## Features
+The production build will be in the `dist/` folder.
 
-### ✅ Authentication
-- User registration and login
-- JWT token management
-- Protected routes
+## ✨ Features
 
-### ✅ Movie & Book Discovery
-- AI-powered semantic search
-- TMDB fallback (auto-adds movies to database)
-- Default listings with filters
-- Detailed pages with cast, crew, genres
+### 🎬 Movie & Book Discovery
+- **AI-Powered Semantic Search** - Find movies and books using natural language
+- **TMDB Integration** - Automatic movie discovery with fallback to TMDB API
+- **Rich Metadata** - Cast, crew, genres, runtime, budget, revenue
+- **High-Quality Posters** - Beautiful movie and book covers
+- **Detailed Pages** - Comprehensive information for each movie and book
 
-### ✅ Recommendations
-- Personalized (collaborative filtering)
-- Popular (community ratings)
-- Similar items (content-based)
+### 🎯 Smart Recommendations
+- **Personalized Recommendations** - Based on your ratings using collaborative filtering
+- **Popular Items** - See what the community loves
+- **Similar Content** - Discover movies and books similar to what you like
+- **Content-Based Filtering** - Recommendations based on genres, cast, and themes
 
-### ✅ Ratings & Interactions
-- 5-star rating system
-- Interaction tracking (view, click, search)
-- My Ratings page with statistics
+### ⭐ Ratings & Interactions
+- **5-Star Rating System** - Rate movies and books you've watched/read
+- **My Ratings Dashboard** - View all your ratings with statistics
+- **Automatic Interaction Tracking** - Improves recommendations based on your behavior
+- **Rating Statistics** - See your average rating, total ratings, and more
 
-### ✅ TMDB Integration
-- Automatic movie discovery
-- Cast & crew information
-- Genres, runtime, budget, revenue
-- High-quality posters
+### 🔐 User Authentication
+- **Secure Registration** - Create your account
+- **JWT Authentication** - Secure token-based login
+- **Protected Routes** - Access personalized features
+- **Persistent Sessions** - Stay logged in across visits
 
-## Project Structure
+### 🎨 User Experience
+- **Responsive Design** - Works on desktop, tablet, and mobile
+- **Clean Interface** - MovieLens-inspired design
+- **Fast Performance** - Optimized with Vite and React
+- **Smooth Navigation** - React Router for seamless page transitions
+- **Loading States** - Skeleton loaders and spinners
+- **Error Handling** - Graceful error messages
 
-```
-src/
-├── components/       # Reusable components
-│   ├── Navbar.tsx
-│   ├── StarRating.tsx
-│   └── Footer.tsx
-├── pages/           # Page components
-│   ├── Home.tsx
-│   ├── Search.tsx
-│   ├── Books.tsx
-│   ├── MovieDetail.tsx
-│   ├── BookDetail.tsx
-│   ├── Recommendations.tsx
-│   ├── MyRatings.tsx
-│   ├── Login.tsx
-│   ├── Register.tsx
-│   ├── About.tsx
-│   └── HowItWorks.tsx
-├── services/        # API services
-│   ├── api.ts
-│   ├── auth.service.ts
-│   └── interaction.service.ts
-├── store/           # State management
-│   └── useStore.ts
-├── types/           # TypeScript types
-│   └── index.ts
-├── hooks/           # Custom hooks
-│   └── useDebounce.ts
-├── App.tsx          # Main app component
-└── main.tsx         # Entry point
-```
+### 🔍 Search & Browse
+- **Semantic Search** - Search using natural language queries
+- **Minimum 3 Characters** - Smart search with debouncing
+- **Default Listings** - Browse popular movies and books
+- **Filter by Type** - Separate pages for movies and books
+- **Search Results** - Clear display with metadata
 
-## API Configuration
+### 📊 Additional Features
+- **About Page** - Learn about FlickPage's mission and technology
+- **How It Works** - Understand the recommendation algorithms
+- **TMDb Attribution** - Proper credit to The Movie Database
+- **Offline Support** - Interaction queue for offline usage
 
-Update the API base URL in `src/services/api.ts`:
+## 📦 Tech Stack
 
-```typescript
-const api = axios.create({
-  baseURL: 'https://your-api-url.com',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-```
+### Frontend
+- **React 18** - Modern UI library with hooks
+- **TypeScript** - Type-safe development
+- **Vite** - Lightning-fast build tool
+- **Tailwind CSS** - Utility-first styling
 
-## Environment Variables
+### Routing & State
+- **React Router v6** - Client-side routing
+- **Zustand** - Lightweight state management
 
-Create `.env` file (optional):
+### API & Data
+- **Axios** - HTTP client with interceptors
+- **JWT** - Secure authentication tokens
 
-```env
-VITE_API_URL=https://your-api-url.com
-```
+### UI Components
+- **Lucide React** - Beautiful icons
+- **Custom Components** - Reusable UI elements
 
-## Key Features Implementation
+## 🎨 Key Features Explained
 
 ### Interaction Tracking
-Automatically tracks user behavior:
-- **View**: When viewing movie/book details
-- **Click**: When clicking on cards
-- **Search**: When items appear in search results
+FlickPage automatically tracks your behavior to improve recommendations:
+- **View Tracking** - When you visit movie/book detail pages
+- **Click Tracking** - When you click on movie/book cards
+- **Search Tracking** - When items appear in your search results
 
-Features:
-- Debouncing (1 second)
-- Offline queue support
-- UUID validation
-- Fire-and-forget (non-blocking)
+All tracking is:
+- Non-blocking (doesn't slow down the UI)
+- Debounced (1-second delay to prevent duplicates)
+- Offline-ready (queues interactions when offline)
+- Privacy-focused (only for authenticated users)
 
-### TMDB Fallback
-When searching for movies not in database:
-1. Searches local database first
-2. Falls back to TMDB API if no results
-3. Automatically adds movies to database
-4. Shows blue notification banner
+### TMDB Fallback Search
+Smart movie discovery system:
+1. Searches local database first (fast)
+2. If no results, searches TMDB API (comprehensive)
+3. Automatically adds found movies to database
+4. Shows blue notification when results come from TMDB
+5. Next search is instant (already in database)
 
 ### Cast & Crew Display
-Movie detail pages fetch additional data:
-- Genres as colored badges
-- Cast with character names
-- Crew with job titles
-- Runtime, budget, revenue
-- Vote average and count
+Enhanced movie details with:
+- **Genres** - Displayed as colored badges
+- **Cast** - Actor names with character names
+- **Crew** - Directors, writers, producers with job titles
+- **Financial Data** - Budget and revenue in millions
+- **Ratings** - TMDb vote average and count
+- **Runtime** - Movie duration in minutes
 
-## Testing
 
-See `TESTING_GUIDE.md` for comprehensive testing instructions.
 
-### Quick Test
-1. Start dev server: `npm run dev`
-2. Open browser: `http://localhost:5173`
-3. Open DevTools console (F12)
-4. Login and browse movies
-5. Check console for interaction logs
-
-## Building for Production
+## 🛠️ Available Scripts
 
 ```bash
-# Build
-npm run build
-
-# Output in dist/ folder
-# Deploy dist/ to your hosting service
+npm run dev          # Start development server (http://localhost:5173)
+npm run build        # Build for production
+npm run preview      # Preview production build locally
+npm run lint         # Run ESLint for code quality
 ```
 
-## Deployment
+## 🌐 Browser Support
 
-### Deploy to Vercel (Recommended)
+FlickPage works on all modern browsers:
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
 
-1. **Quick Deploy**:
-```bash
-npm install -g vercel
-vercel login
-vercel
-```
-
-2. **Or via GitHub**:
-   - Push code to GitHub
-   - Import project in Vercel dashboard
-   - Deploy automatically
-
-See `DEPLOYMENT.md` for detailed instructions.
-
-### Other Platforms
-The app can also be deployed to:
-- Netlify
-- GitHub Pages
-- Any static hosting service
-
-Just deploy the `dist/` folder after building.
-
-## Documentation
-
-- `DEPLOYMENT.md` - Vercel deployment guide
-- `TESTING_GUIDE.md` - Comprehensive testing guide
-- `GETTING_STARTED.md` - Initial setup guide
-- `FEATURES.md` - Feature list
-
-## License
+## 📄 License
 
 MIT
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## 📞 Support
+
+For issues or questions:
+- Open an issue on GitHub
+
+---
+
+**Made with ❤️ by the Shashi**
+
+Visit the live site: **[https://flickpage.vercel.app/](https://flickpage.vercel.app/)**
