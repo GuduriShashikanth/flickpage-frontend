@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, Globe, ArrowLeft, Book as BookIcon } from 'lucide-react';
 import api from '../services/api';
+import interactionService from '../services/interaction.service';
 import type { Book } from '../types';
 import Navbar from '../components/Navbar';
 import StarRating from '../components/StarRating';
@@ -30,13 +31,9 @@ export default function BookDetail() {
       const response = await api.get<Book>(`/books/${id}`);
       setBook(response.data);
       
-      // Track interaction
-      if (isAuthenticated) {
-        await api.post('/interactions', {
-          item_id: id,
-          item_type: 'book',
-          interaction_type: 'view'
-        });
+      // Track view interaction
+      if (isAuthenticated && id) {
+        interactionService.trackView(id, 'book');
       }
     } catch (error) {
       console.error('Failed to fetch book:', error);
@@ -205,6 +202,7 @@ export default function BookDetail() {
                 <Link
                   key={similar.id}
                   to={`/books/${similar.id}`}
+                  onClick={() => isAuthenticated && interactionService.trackClick(similar.id, 'book')}
                   className="group"
                 >
                   <div className="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">

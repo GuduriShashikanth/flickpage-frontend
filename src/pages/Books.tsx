@@ -2,16 +2,19 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Book as BookIcon, Search } from 'lucide-react';
 import api from '../services/api';
+import interactionService from '../services/interaction.service';
 import type { Book } from '../types';
 import useDebounce from '../hooks/useDebounce';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { useStore } from '../store/useStore';
 
 export default function Books() {
   const [books, setBooks] = useState<Book[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const { isAuthenticated } = useStore();
   
   const debouncedQuery = useDebounce(searchQuery, 500);
 
@@ -54,7 +57,15 @@ export default function Books() {
         }
       });
       
-      setBooks(response.data.results || []);
+      const results = response.data.results || [];
+      setBooks(results);
+      
+      // Track search interactions for each result
+      if (isAuthenticated && results.length > 0) {
+        results.forEach((book: Book) => {
+          interactionService.trackSearch(book.id, 'book');
+        });
+      }
     } catch (err: any) {
       console.error('Search failed:', err);
       setError(err.response?.data?.detail || 'Search failed. Please try again.');
@@ -116,6 +127,7 @@ export default function Books() {
                 <Link
                   key={book.id}
                   to={`/books/${book.id}`}
+                  onClick={() => isAuthenticated && interactionService.trackClick(book.id, 'book')}
                   className="group"
                 >
                   <div className="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">

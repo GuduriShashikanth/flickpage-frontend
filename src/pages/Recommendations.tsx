@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles, TrendingUp, Heart, LogIn, Film, Book } from 'lucide-react';
 import api from '../services/api';
+import interactionService from '../services/interaction.service';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { useStore } from '../store/useStore';
@@ -139,6 +140,7 @@ export default function Recommendations() {
                   <Link
                     key={item.item_id}
                     to={`/movies/${item.item_id}`}
+                    onClick={() => isAuthenticated && interactionService.trackClick(item.item_id, item.item_type as 'movie' | 'book')}
                     className="group bg-white rounded-lg shadow hover:shadow-xl transition-all"
                   >
                     {item.poster_url || item.thumbnail_url ? (
@@ -225,6 +227,7 @@ export default function Recommendations() {
                 <Link
                   key={item.item_id}
                   to={`/movies/${item.item_id}`}
+                  onClick={() => isAuthenticated && interactionService.trackClick(item.item_id, item.item_type as 'movie' | 'book')}
                   className="group bg-white rounded-lg shadow hover:shadow-xl transition-all"
                 >
                   {item.poster_url || item.thumbnail_url ? (
@@ -300,6 +303,7 @@ export default function Recommendations() {
                 <Link
                   key={item.item_id}
                   to={`/movies/${item.item_id}`}
+                  onClick={() => isAuthenticated && interactionService.trackClick(item.item_id, item.item_type as 'movie' | 'book')}
                   className="group bg-white rounded-lg shadow hover:shadow-xl transition-all"
                 >
                   {item.poster_url || item.thumbnail_url ? (

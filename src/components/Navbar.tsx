@@ -11,7 +11,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="text-2xl font-bold text-blue-600 hover:text-blue-700">
-            CineLibre
+            FlickPage
           </Link>
 
           {/* Main Navigation */}

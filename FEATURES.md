@@ -1,4 +1,4 @@
-# CineLibre Frontend - Complete Feature List
+# FlickPage Frontend - Complete Feature List
 
 ## ✅ Implemented Features
 

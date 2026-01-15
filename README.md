@@ -1,49 +1,24 @@
-# CineLibre Frontend
+# FlickPage Frontend
 
-AI-powered movie and book recommendation platform built with React, TypeScript, and Tailwind CSS.
+React + TypeScript frontend for FlickPage - AI-powered movie and book recommendation system.
 
-## 🚀 Features
-
-### Core Features
-- ✅ **User Authentication** - Register, login, JWT token management
-- ✅ **Semantic Search** - AI-powered natural language search
-- ✅ **Movie Details** - Comprehensive movie information with ratings
-- ✅ **Rating System** - Rate movies with 0.5-5 star ratings
-- ✅ **Personalized Recommendations** - Collaborative filtering based on your ratings
-- ✅ **Similar Items** - Content-based recommendations
-- ✅ **Popular Movies** - Trending content based on community ratings
-- ✅ **My Ratings** - Track and manage all your ratings
-- ✅ **Responsive Design** - Mobile-first, works on all devices
-
-### Recommendation Algorithms
-1. **Collaborative Filtering** - Recommendations based on similar users
-2. **Content-Based** - Similar movies using vector similarity
-3. **Popularity-Based** - Trending movies and books
-4. **Hybrid Strategy** - Combines multiple algorithms
-
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **React 18** with TypeScript
-- **Vite** for fast development
-- **Tailwind CSS** for styling
-- **React Router** for navigation
-- **Zustand** for state management
-- **Axios** for API calls
-- **Lucide React** for icons
+- **Vite** - Fast build tool
+- **Tailwind CSS** - Styling
+- **React Router** - Navigation
+- **Zustand** - State management
+- **Axios** - API calls
+- **Lucide React** - Icons
 
-## 📦 Installation
-
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-
-### Setup
+## Quick Start
 
 ```bash
 # Install dependencies
 npm install
 
-# Run development server
+# Start development server
 npm run dev
 
 # Build for production
@@ -53,191 +28,173 @@ npm run build
 npm run preview
 ```
 
-## 🌐 Environment Variables
+## Features
 
-Create a `.env` file (optional, defaults are set):
+### ✅ Authentication
+- User registration and login
+- JWT token management
+- Protected routes
 
-```env
-VITE_API_BASE_URL=https://amateur-meredithe-shashikanth-45dbe15b.koyeb.app
-```
+### ✅ Movie & Book Discovery
+- AI-powered semantic search
+- TMDB fallback (auto-adds movies to database)
+- Default listings with filters
+- Detailed pages with cast, crew, genres
 
-## 📁 Project Structure
+### ✅ Recommendations
+- Personalized (collaborative filtering)
+- Popular (community ratings)
+- Similar items (content-based)
+
+### ✅ Ratings & Interactions
+- 5-star rating system
+- Interaction tracking (view, click, search)
+- My Ratings page with statistics
+
+### ✅ TMDB Integration
+- Automatic movie discovery
+- Cast & crew information
+- Genres, runtime, budget, revenue
+- High-quality posters
+
+## Project Structure
 
 ```
 src/
-├── components/          # Reusable components
-│   ├── Navbar.tsx      # Navigation bar
-│   └── StarRating.tsx  # Star rating widget
-├── hooks/              # Custom React hooks
-│   └── useDebounce.ts  # Debounce hook for search
-├── pages/              # Page components
-│   ├── Home.tsx        # Landing page
-│   ├── Login.tsx       # Login page
-│   ├── Register.tsx    # Registration page
-│   ├── Search.tsx      # Search page
-│   ├── MovieDetail.tsx # Movie details
-│   ├── Recommendations.tsx # Recommendations
-│   └── MyRatings.tsx   # User ratings
-├── services/           # API services
-│   ├── api.ts          # Axios instance
-│   └── auth.service.ts # Auth service
-├── store/              # Zustand store
-│   └── useStore.ts     # Global state
-├── types/              # TypeScript types
-│   └── index.ts        # Type definitions
-├── App.tsx             # Main app component
-└── main.tsx            # Entry point
+├── components/       # Reusable components
+│   ├── Navbar.tsx
+│   ├── StarRating.tsx
+│   └── Footer.tsx
+├── pages/           # Page components
+│   ├── Home.tsx
+│   ├── Search.tsx
+│   ├── Books.tsx
+│   ├── MovieDetail.tsx
+│   ├── BookDetail.tsx
+│   ├── Recommendations.tsx
+│   ├── MyRatings.tsx
+│   ├── Login.tsx
+│   ├── Register.tsx
+│   ├── About.tsx
+│   └── HowItWorks.tsx
+├── services/        # API services
+│   ├── api.ts
+│   ├── auth.service.ts
+│   └── interaction.service.ts
+├── store/           # State management
+│   └── useStore.ts
+├── types/           # TypeScript types
+│   └── index.ts
+├── hooks/           # Custom hooks
+│   └── useDebounce.ts
+├── App.tsx          # Main app component
+└── main.tsx         # Entry point
 ```
 
-## 🎯 Key Features Explained
+## API Configuration
 
-### Authentication
-- JWT-based authentication
-- Token stored in localStorage
-- Auto-redirect on 401 errors
-- Protected routes for authenticated users
+Update the API base URL in `src/services/api.ts`:
 
-### Search
-- Semantic search using AI embeddings
-- Text search fallback
-- Debounced input (500ms)
-- Real-time results
+```typescript
+const api = axios.create({
+  baseURL: 'https://your-api-url.com',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+```
 
-### Ratings
-- 0.5-5 star ratings (0.5 increments)
-- Create, update, delete ratings
-- View all your ratings
-- Statistics dashboard
+## Environment Variables
 
-### Recommendations
-- **For You**: Personalized based on your ratings (requires 3+ ratings)
-- **Popular Now**: Trending movies based on community ratings
-- **Similar Movies**: Content-based recommendations on detail pages
+Create `.env` file (optional):
 
-## 🔌 API Integration
+```env
+VITE_API_URL=https://your-api-url.com
+```
 
-Backend API: `https://amateur-meredithe-shashikanth-45dbe15b.koyeb.app`
+## Key Features Implementation
 
-### Key Endpoints Used
-- `POST /auth/register` - User registration
-- `POST /auth/login` - User login
-- `GET /auth/me` - Get user profile
-- `GET /search/semantic` - Semantic search
-- `GET /movies` - List movies
-- `GET /movies/:id` - Movie details
-- `POST /ratings` - Create/update rating
-- `GET /ratings/my` - Get user ratings
-- `DELETE /ratings/:id` - Delete rating
-- `GET /recommendations/personalized` - Personalized recommendations
-- `GET /recommendations/similar/:type/:id` - Similar items
-- `GET /recommendations/popular` - Popular items
-- `POST /interactions` - Track user interactions
+### Interaction Tracking
+Automatically tracks user behavior:
+- **View**: When viewing movie/book details
+- **Click**: When clicking on cards
+- **Search**: When items appear in search results
 
-## 🎨 Design
+Features:
+- Debouncing (1 second)
+- Offline queue support
+- UUID validation
+- Fire-and-forget (non-blocking)
 
-### Color Scheme
-- Primary: Blue (#2563EB)
-- Secondary: Purple (#9333EA)
-- Accent: Orange/Yellow
-- Background: Gray (#F9FAFB)
+### TMDB Fallback
+When searching for movies not in database:
+1. Searches local database first
+2. Falls back to TMDB API if no results
+3. Automatically adds movies to database
+4. Shows blue notification banner
 
-### Typography
-- Font: System fonts (optimized for performance)
-- Responsive sizing
-- High contrast for readability
+### Cast & Crew Display
+Movie detail pages fetch additional data:
+- Genres as colored badges
+- Cast with character names
+- Crew with job titles
+- Runtime, budget, revenue
+- Vote average and count
 
-## 📱 Responsive Breakpoints
+## Testing
 
-- Mobile: 320px+
-- Tablet: 768px+
-- Desktop: 1024px+
-- Large Desktop: 1440px+
+See `TESTING_GUIDE.md` for comprehensive testing instructions.
 
-## 🚀 Deployment
+### Quick Test
+1. Start dev server: `npm run dev`
+2. Open browser: `http://localhost:5173`
+3. Open DevTools console (F12)
+4. Login and browse movies
+5. Check console for interaction logs
 
-### Vercel (Recommended)
+## Building for Production
+
 ```bash
-# Install Vercel CLI
-npm i -g vercel
+# Build
+npm run build
 
-# Deploy
+# Output in dist/ folder
+# Deploy dist/ to your hosting service
+```
+
+## Deployment
+
+### Deploy to Vercel (Recommended)
+
+1. **Quick Deploy**:
+```bash
+npm install -g vercel
+vercel login
 vercel
 ```
 
-### Netlify
-```bash
-# Build
-npm run build
+2. **Or via GitHub**:
+   - Push code to GitHub
+   - Import project in Vercel dashboard
+   - Deploy automatically
 
-# Deploy dist/ folder
-```
+See `DEPLOYMENT.md` for detailed instructions.
 
-### GitHub Pages
-```bash
-# Build
-npm run build
+### Other Platforms
+The app can also be deployed to:
+- Netlify
+- GitHub Pages
+- Any static hosting service
 
-# Deploy dist/ folder to gh-pages branch
-```
+Just deploy the `dist/` folder after building.
 
-## 🧪 Testing
+## Documentation
 
-```bash
-# Run tests (when implemented)
-npm test
+- `DEPLOYMENT.md` - Vercel deployment guide
+- `TESTING_GUIDE.md` - Comprehensive testing guide
+- `GETTING_STARTED.md` - Initial setup guide
+- `FEATURES.md` - Feature list
 
-# Type checking
-npm run type-check
-```
+## License
 
-## 📊 Performance
-
-- First Contentful Paint: <1s
-- Time to Interactive: <2s
-- Lighthouse Score: 90+
-- Bundle Size: <300KB (gzipped)
-
-## 🔒 Security
-
-- JWT tokens in localStorage
-- HTTPS only
-- Input validation
-- XSS protection
-- CSRF protection
-
-## 🗺️ Roadmap
-
-- [ ] Dark mode
-- [ ] Watchlist functionality
-- [ ] Social sharing
-- [ ] User reviews/comments
-- [ ] Advanced filters
-- [ ] Infinite scroll
-- [ ] PWA support
-- [ ] Multi-language support
-
-## 📚 Resources
-
-- [API Documentation](../API_REFERENCE.md)
-- [Backend Repository](https://github.com/GuduriShashikanth/Movie-Book-recommendation-system)
-- [React Documentation](https://react.dev)
-- [Tailwind CSS](https://tailwindcss.com)
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📝 License
-
-MIT License
-
-## 🙏 Acknowledgments
-
-- TMDB for movie data
-- Google Books API for book data
-- FastAPI backend
-- Supabase for database
-
----
-
-**Built with ❤️ for discovering the perfect movie or book**
+MIT

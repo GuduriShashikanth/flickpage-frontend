@@ -17,7 +17,7 @@ export default function Footer() {
 
           {/* Copyright */}
           <div className="text-sm text-gray-500">
-            © 2026 CineLibre. All rights reserved.
+            © 2026 FlickPage. All rights reserved.
           </div>
         </div>
       </div>

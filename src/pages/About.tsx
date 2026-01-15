@@ -13,7 +13,7 @@ export default function About() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              About CineLibre
+              About FlickPage
             </h1>
             <p className="text-xl md:text-2xl text-blue-100">
               AI-powered movie and book recommendations that understand what you're looking for
@@ -137,7 +137,7 @@ export default function About() {
                 Free Forever
               </h3>
               <p className="text-gray-600 leading-relaxed">
-                No subscriptions, no hidden fees. CineLibre is completely free to use 
+                No subscriptions, no hidden fees. FlickPage is completely free to use 
                 for everyone, forever.
               </p>
             </div>
@@ -238,7 +238,7 @@ export default function About() {
               Ready to Get Started?
             </h2>
             <p className="text-xl text-gray-600 mb-8">
-              Join CineLibre today and discover your next favorite movie or book
+              Join FlickPage today and discover your next favorite movie or book
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
               <Link

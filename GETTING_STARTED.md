@@ -1,4 +1,4 @@
-# Getting Started with CineLibre Frontend
+# Getting Started with FlickPage Frontend
 
 ## 🚀 Quick Start (5 Minutes)
 
@@ -8,7 +8,7 @@ The server is already running at **http://localhost:5174**
 
 If you need to restart:
 ```bash
-cd cinelibre-frontend
+cd flickpage-frontend
 npm run dev
 ```
 

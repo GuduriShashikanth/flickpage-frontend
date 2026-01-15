@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
+import interactionService from '../services/interaction.service';
 import type { Movie } from '../types';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Search, TrendingUp, Sparkles } from 'lucide-react';
+import { useStore } from '../store/useStore';
 
 export default function Home() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
+  const { isAuthenticated } = useStore();
 
   useEffect(() => {
     fetchMovies();
@@ -34,7 +37,7 @@ export default function Home() {
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl font-bold text-gray-900 mb-4">
-              CineLibre
+              FlickPage
             </h1>
             <p className="text-xl text-gray-600 mb-8">
               Personalized movie and book recommendations powered by AI
@@ -88,6 +91,7 @@ export default function Home() {
               <Link
                 key={movie.id}
                 to={`/movies/${movie.id}`}
+                onClick={() => isAuthenticated && interactionService.trackClick(movie.id, 'movie')}
                 className="group bg-white rounded-lg shadow hover:shadow-xl transition-all"
               >
                 {movie.poster_url ? (
@@ -126,7 +130,7 @@ export default function Home() {
       <div className="bg-white border-t py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-            How CineLibre Works
+            How FlickPage Works
           </h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div className="text-center">
@@ -173,7 +177,7 @@ export default function Home() {
             Ready to discover your next favorite?
           </h2>
           <p className="text-xl text-blue-100 mb-8">
-            Join CineLibre today and get personalized recommendations
+            Join FlickPage today and get personalized recommendations
           </p>
           <Link
             to="/register"

@@ -20,7 +20,32 @@ export interface Movie {
   overview?: string;
   release_date?: string;
   vote_average?: number;
+  vote_count?: number;
+  cast?: CastMember[];
+  crew?: CrewMember[];
+  genres?: string[];
+  runtime?: number;
+  budget?: number;
+  revenue?: number;
   created_at?: string;
+}
+
+export interface CastMember {
+  name: string;
+  character: string;
+  profile_path?: string;
+}
+
+export interface CrewMember {
+  job: string;
+  name: string;
+  department: string;
+}
+
+export interface CrewInfo {
+  directors?: string[];
+  writers?: string[];
+  producers?: string[];
 }
 
 export interface Book {
@@ -66,6 +91,7 @@ export interface Interaction {
 export interface SearchResult {
   query: string;
   results: Movie[] | Book[];
+  source?: 'database' | 'tmdb';
 }
 
 export interface RecommendationItem {

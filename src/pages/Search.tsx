@@ -2,16 +2,20 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search as SearchIcon, Film } from 'lucide-react';
 import api from '../services/api';
+import interactionService from '../services/interaction.service';
 import type { Movie } from '../types';
 import useDebounce from '../hooks/useDebounce';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { useStore } from '../store/useStore';
 
 export default function Search() {
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [source, setSource] = useState<'database' | 'tmdb' | null>(null);
+  const { isAuthenticated } = useStore();
   
   const debouncedQuery = useDebounce(query, 500);
 
@@ -30,6 +34,7 @@ export default function Search() {
   const loadDefaultMovies = async () => {
     setLoading(true);
     setError('');
+    setSource(null);
     try {
       const response = await api.get('/movies?limit=20');
       setMovies(response.data.movies || []);
@@ -44,6 +49,7 @@ export default function Search() {
   const searchMovies = async (searchQuery: string) => {
     setLoading(true);
     setError('');
+    setSource(null);
     try {
       // Use 'q' parameter as per API spec, 'type' for item type
       const response = await api.get('/search/semantic', {
@@ -55,8 +61,17 @@ export default function Search() {
         }
       });
       
-      // API returns { query: string, results: Movie[] }
-      setMovies(response.data.results || []);
+      // API returns { query: string, results: Movie[], source?: 'database' | 'tmdb' }
+      const results = response.data.results || [];
+      setMovies(results);
+      setSource(response.data.source || null);
+      
+      // Track search interactions for each result
+      if (isAuthenticated && results.length > 0) {
+        results.forEach((movie: Movie) => {
+          interactionService.trackSearch(movie.id, 'movie');
+        });
+      }
     } catch (err: any) {
       console.error('Search failed:', err);
       setError(err.response?.data?.detail || 'Search failed. Please try again.');
@@ -97,6 +112,19 @@ export default function Search() {
           </div>
         )}
 
+        {/* TMDB Source Notification */}
+        {source === 'tmdb' && movies.length > 0 && (
+          <div className="max-w-3xl mx-auto mb-6">
+            <div className="bg-blue-50 border border-blue-200 text-blue-800 p-4 rounded-lg flex items-start gap-3">
+              <span className="text-xl">ℹ️</span>
+              <div>
+                <p className="font-semibold">Results from TMDb</p>
+                <p className="text-sm">These movies were found on TMDb and added to our database for you!</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Results */}
         {loading ? (
           <div className="text-center py-12">
@@ -115,6 +143,7 @@ export default function Search() {
                 <Link
                   key={movie.id}
                   to={`/movies/${movie.id}`}
+                  onClick={() => isAuthenticated && interactionService.trackClick(movie.id, 'movie')}
                   className="group"
                 >
                   <div className="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">

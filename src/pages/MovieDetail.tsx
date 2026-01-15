@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, Globe, Star, ArrowLeft, Film } from 'lucide-react';
 import api from '../services/api';
+import interactionService from '../services/interaction.service';
 import type { Movie } from '../types';
 import Navbar from '../components/Navbar';
 import StarRating from '../components/StarRating';
@@ -27,16 +28,13 @@ export default function MovieDetail() {
 
   const fetchMovieDetails = async () => {
     try {
-      const response = await api.get<Movie>(`/movies/${id}`);
+      // Fetch with include_details=true to get cast, crew, genres
+      const response = await api.get<Movie>(`/movies/${id}?include_details=true`);
       setMovie(response.data);
       
-      // Track interaction
-      if (isAuthenticated) {
-        await api.post('/interactions', {
-          item_id: id,
-          item_type: 'movie',
-          interaction_type: 'view'
-        });
+      // Track view interaction
+      if (isAuthenticated && id) {
+        interactionService.trackView(id, 'movie');
       }
     } catch (error) {
       console.error('Failed to fetch movie:', error);
@@ -148,6 +146,11 @@ export default function MovieDetail() {
                     <span>{new Date(movie.release_date).getFullYear()}</span>
                   </div>
                 )}
+                {movie.runtime && (
+                  <div className="flex items-center gap-2">
+                    <span>{movie.runtime} min</span>
+                  </div>
+                )}
                 {movie.language && (
                   <div className="flex items-center gap-2">
                     <Globe size={18} />
@@ -158,14 +161,55 @@ export default function MovieDetail() {
                   <div className="flex items-center gap-2">
                     <Star size={18} className="fill-yellow-400 text-yellow-400" />
                     <span>{movie.vote_average.toFixed(1)}/10</span>
+                    {movie.vote_count && (
+                      <span className="text-sm text-gray-500">({movie.vote_count.toLocaleString()} votes)</span>
+                    )}
                   </div>
                 )}
               </div>
+
+              {/* Genres */}
+              {movie.genres && movie.genres.length > 0 && (
+                <div className="mb-6">
+                  <div className="flex flex-wrap gap-2">
+                    {movie.genres.map((genre, index) => (
+                      <span
+                        key={index}
+                        className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium"
+                      >
+                        {genre}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {movie.overview && (
                 <div className="mb-6">
                   <h2 className="text-xl font-semibold mb-2">Overview</h2>
                   <p className="text-gray-700 leading-relaxed">{movie.overview}</p>
+                </div>
+              )}
+
+              {/* Additional Info */}
+              {(movie.budget || movie.revenue) && (
+                <div className="mb-6 grid grid-cols-2 gap-4">
+                  {movie.budget && movie.budget > 0 && (
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-600 mb-1">Budget</h3>
+                      <p className="text-lg font-bold text-gray-900">
+                        ${(movie.budget / 1000000).toFixed(1)}M
+                      </p>
+                    </div>
+                  )}
+                  {movie.revenue && movie.revenue > 0 && (
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-600 mb-1">Revenue</h3>
+                      <p className="text-lg font-bold text-gray-900">
+                        ${(movie.revenue / 1000000).toFixed(1)}M
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -192,6 +236,47 @@ export default function MovieDetail() {
           </div>
         </div>
 
+        {/* Cast & Crew Section */}
+        {((movie.cast && movie.cast.length > 0) || (movie.crew && movie.crew.length > 0)) && (
+          <div className="mt-12 bg-white rounded-lg shadow-lg p-8">
+            <h2 className="text-2xl font-bold mb-6">Cast & Crew</h2>
+            
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Crew */}
+              {movie.crew && movie.crew.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900">Crew</h3>
+                  <div className="space-y-2">
+                    {movie.crew.map((member, index) => (
+                      <div key={index} className="text-gray-600">
+                        <span className="font-medium text-gray-900">{member.name}</span>
+                        <span className="text-sm"> - {member.job}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Cast */}
+              {movie.cast && movie.cast.length > 0 && (
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 text-gray-900">Cast</h3>
+                  <div className="space-y-2">
+                    {movie.cast.map((actor, index) => (
+                      <div key={index} className="text-gray-600">
+                        <span className="font-medium text-gray-900">{actor.name}</span>
+                        {actor.character && (
+                          <span className="text-sm"> as {actor.character}</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Similar Movies */}
         {similarMovies.length > 0 && (
           <div className="mt-12">
@@ -201,6 +286,7 @@ export default function MovieDetail() {
                 <Link
                   key={similar.id}
                   to={`/movies/${similar.id}`}
+                  onClick={() => isAuthenticated && interactionService.trackClick(similar.id, 'movie')}
                   className="group"
                 >
                   <div className="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition">

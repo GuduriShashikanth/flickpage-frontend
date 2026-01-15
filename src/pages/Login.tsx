@@ -32,7 +32,7 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
         <div>
-          <h2 className="text-3xl font-bold text-center">Sign in to CineLibre</h2>
+          <h2 className="text-3xl font-bold text-center">Sign in to FlickPage</h2>
         </div>
         
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
