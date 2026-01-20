@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://amateur-meredithe-shashikanth-45dbe15b.koyeb.app',
+  baseURL: 'https://flickpage-backend.onrender.com',
   timeout: 15000,
 });
 
