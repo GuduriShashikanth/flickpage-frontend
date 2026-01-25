@@ -72,21 +72,21 @@ class InteractionService {
   }
 
   /**
-   * Track a view interaction
+   * Track a view interaction (when user opens item details)
    */
   trackView(itemId: string, itemType: ItemType): void {
     this.track(itemId, itemType, 'view');
   }
 
   /**
-   * Track a click interaction
+   * Track a click interaction (when user clicks on item card)
    */
   trackClick(itemId: string, itemType: ItemType): void {
     this.track(itemId, itemType, 'click');
   }
 
   /**
-   * Track a search interaction
+   * Track a search interaction (when item appears in search results)
    */
   trackSearch(itemId: string, itemType: ItemType): void {
     this.track(itemId, itemType, 'search');
